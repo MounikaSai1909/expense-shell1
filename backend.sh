@@ -1,34 +1,11 @@
 #!/bin/bash
-USERID=$(id -u)
-SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
-TIMESTAMP=$(date +%F-%H-%M-%S)
-LOG_FILE=/tmp/$SCRIPT_NAME-$TIMESTAMP.log
 
-R="\e[31m"
-G="\e[32m"
-Y="\e[33m"
-N="\e[0m"
+source ./common.sh
+
+check_root   
 
 echo "Please enter db password"
 read -s mysql_root_password
-
-VALIDATE(){
-    if [ $1 -ne 0 ]
-    then
-       echo -e "$2...$R  FAILURE $N"
-       exit 1
-    else 
-       echo -e "$2... $G  SUCCESS $N"
-    fi
-}
-
-if [ $USERID -ne 0 ]
-then 
-    echo "Please run with super user"
-    exit 1
-else 
-    echo "You are a super user"
-fi
 
 dnf module disable nodejs -y &>> $LOG_FILE
 VALIDATE $? "Disabling default nodejs"
@@ -82,7 +59,7 @@ VALIDATE $? "installing mysql"
 
 
 #mysql -h 172.31.27.17 -uroot -pExpenseApp@1 < /app/schema/backend.sql
-mysql --host=23.22.163.148 --user=root --password=${mysql_root_password} < /app/schema/backend.sql &>> $LOG_FILE
+mysql --host=54.82.112.45 --user=root --password=${mysql_root_password} < /app/schema/backend.sql &>> $LOG_FILE
 VALIDATE $? "Schema loading"
 
 systemctl restart backend &>> $LOG_FILE
