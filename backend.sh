@@ -42,7 +42,7 @@ npm install &>> $LOG_FILE
 VALIDATE $? "installing nodejs dependecies"
 
 
-cp /home/ec2-user/expense-shell/backend.service /etc/systemd/system/backend.service &>> $LOG_FILE
+cp /home/ec2-user/expense-shell1/backend.service /etc/systemd/system/backend.service &>> $LOG_FILE
 VALIDATE $? "Copying the backend service"
 
 systemctl daemon-reload &>> $LOG_FILE
@@ -63,4 +63,6 @@ mysql --host=54.82.112.45 --user=root --password=${mysql_root_password} < /app/s
 VALIDATE $? "Schema loading"
 
 systemctl restart backend &>> $LOG_FILE
-VALIDATE $? "restarting backend"   
+VALIDATE $? "restarting backend" 
+
+###
